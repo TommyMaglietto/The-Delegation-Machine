@@ -41,6 +41,96 @@ The Delegation Machine is an evolving architectural framework that treats AI age
 |------|-------------|
 | `MASTER_AI_PROCEDURES.md` | The operational rulebook — agent lifecycle, scheduling protocols, supervision trees, incentive alignment, and continuous homeostasis |
 | `CONTEXT_AND_MEMORY_ARCHITECTURE.md` | The technical blueprint — memory hierarchy, KV-cache economics, CRDT state management, event sourcing, and SSA reasoning |
+| `.claude/agents/` | 11 specialized agent definitions — the "compute kernels" that execute tasks |
+| `.claude/skills/` | 25 skill modules — reusable workflows and domain expertise that agents invoke |
+| `.claude/commands/` | 5 slash commands — user-facing interfaces for triggering analysis and workflows |
+
+## Agents, Skills & Commands
+
+The architecture docs describe the *theory*. The `.claude/` directory contains the *operational implementation* — a library of specialized agents, skills, and commands that run inside Claude Code.
+
+### How It Works
+
+```
+User Request
+    │
+    ▼
+┌─────────────────┐     ┌──────────────────┐
+│  Skills Layer   │────▶│  Agent Dispatch   │
+│  (workflows &   │     │  (specialized     │
+│   expertise)    │     │   compute kernels)│
+└─────────────────┘     └──────────────────┘
+    │                           │
+    ▼                           ▼
+┌─────────────────┐     ┌──────────────────┐
+│  Commands       │     │  Tool Execution  │
+│  (user-facing   │     │  (Read, Write,   │
+│   interfaces)   │     │   Edit, Bash...) │
+└─────────────────┘     └──────────────────┘
+```
+
+**Skills** determine *how* to approach a task (brainstorming before building, debugging before fixing). They are checked before every response — if a skill applies, it must be used.
+
+**Agents** are specialized execution units with defined tools, models, and expertise domains. They are the architecture's "stateless compute kernels" in practice.
+
+**Commands** are user-invocable shortcuts (e.g., `/ultra-think`, `/architecture-review`) that trigger specific analysis workflows.
+
+### Agents (`.claude/agents/`)
+
+Specialized agents with defined capabilities, tools, and communication protocols:
+
+| Agent | Role |
+|-------|------|
+| `ai-engineer` | End-to-end AI system design — model selection, training pipelines, deployment |
+| `architect-review` | Architecture review and system design evaluation |
+| `backend-architect` | Backend system architecture, API design, scalability planning |
+| `code-reviewer` | Code quality, security vulnerabilities, best practices enforcement |
+| `command-expert` | CLI command development and task automation |
+| `context-manager` | Context preservation across multi-agent workflows and long-running tasks |
+| `database-architect` | Database design, data modeling, query optimization |
+| `frontend-developer` | Multi-framework frontend development (React, Vue, Angular) |
+| `prompt-engineer` | LLM prompt design, optimization, testing, and evaluation |
+| `seo-analyzer` | Technical SEO audits, meta tag optimization, performance analysis |
+| `ui-ux-designer` | Research-backed UI/UX feedback with Nielsen Norman Group methodology |
+
+### Skills (`.claude/skills/`)
+
+Reusable workflow modules that encode domain expertise:
+
+| Category | Skills |
+|----------|--------|
+| **Process** | `brainstorming`, `writing-plans`, `systematic-debugging`, `using-superpowers` |
+| **Architecture** | `senior-architect`, `senior-backend`, `senior-frontend`, `senior-devops` |
+| **AI/ML** | `senior-ml-engineer`, `senior-data-scientist`, `senior-prompt-engineer` |
+| **Frontend** | `frontend-design`, `react-best-practices`, `mobile-design`, `ui-design-system` |
+| **Quality** | `code-reviewer`, `webapp-testing`, `seo-optimizer` |
+| **Integration** | `api-integration-specialist`, `git-commit-helper`, `file-organizer` |
+| **Design** | `brand-guidelines`, `ux-researcher-designer` |
+| **Utilities** | `docx`, `skill-creator` |
+
+Skills are either **rigid** (must follow exactly — e.g., debugging, TDD) or **flexible** (adapt principles to context — e.g., design patterns).
+
+### Commands (`.claude/commands/`)
+
+User-invocable slash commands:
+
+| Command | Purpose |
+|---------|---------|
+| `/ultra-think` | Deep multi-dimensional analysis and problem solving |
+| `/architecture-review` | Comprehensive architecture evaluation |
+| `/create-architecture-documentation` | Generate architecture docs with diagrams and ADRs |
+| `/update-docs` | Documentation synchronization and updates |
+| `/all-tools` | Display all available development tools |
+
+### Relationship to the Architecture
+
+| Architecture Concept | Implementation |
+|---------------------|----------------|
+| Stateless compute kernels | **Agents** — each agent is a specialized kernel with defined tools and expertise |
+| Skill Factorization (§5.3 in MASTER_AI_PROCEDURES.md) | **Skills** — repeated patterns are encoded as reusable SKILL.md modules |
+| Agent Cards (capability declarations) | Agent YAML frontmatter — name, description, tools, model |
+| Supervisor tier (deterministic checks) | Skills like `code-reviewer` and `systematic-debugging` enforce quality gates |
+| Stigmergic coordination | Skills like `context-manager` preserve state across agent handoffs |
 
 ## Evolution
 
@@ -54,6 +144,9 @@ The Delegation Machine is an evolving architectural framework that treats AI age
 
 1. Read `MASTER_AI_PROCEDURES.md` first — it defines the execution model and agent lifecycle
 2. Then read `CONTEXT_AND_MEMORY_ARCHITECTURE.md` — it details the memory hierarchy and state management
+3. Explore `.claude/agents/` to see the specialized agent definitions
+4. Browse `.claude/skills/` to understand the workflow modules available
+5. Try `/ultra-think` or `/architecture-review` to see commands in action
 
 ## Current Status: Architecture Specification
 
